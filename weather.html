@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>Seminario Gráfica Computacional I 2018, Primer Semestre → Clase 1 → Viernes 16 de marzo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+  integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+  crossorigin=""></script>
+<link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6 py-5">            
+            <h1>Está raro el clima</h1>
+			<h2>en todo el mundo</h2>
+            <p class="bajada">
+                Milán es la mayor Área Metropolitana de Italia y el segundo municipio de Italia por población. Se encuentra ubicada en la llanura padana, una de las regiones más desarrolladas de Italia. 
+                
+                <p>En 2008, el PIB de Lombardía, fue estimado por el INSEE en 366 mil millones de euros, el segundo de Europa después de la región de Isla de Francia.</p>
+
+<p>Milán, como capital económica e industrial de Italia, tiene el aspecto y las características de una metrópolis moderna: rascacielos, edificios de cristal y metal y grandes almacenes. Su inconmensurable patrimonio artístico es uno de los mayores de Italia y de Europa, contando con cientos de iglesias monumentales antiguas y museos tan fundamentales para la historia del arte como la Pinacoteca de Brera, uno de los mayores museos de Europa, fundada en 1809 por Napoleón Bonaparte como hermano italiano del Louvre. Destaca también la obra maestra de Leonardo da Vinci, la pintura mural "La Última Cena" y los muchos monumentos románicos (sobre todo iglesias y basílicas) que hacen de Milán la capital del primer románico, llamado también Románico lombardo.</p>            
+        </div>
+        
+         <div class="col-sm-6 py-5">
+             <div id="mapid"></div>
+        </div>
+         <div class="col-sm-12 py-5">
+             
+             
+             <p>Milán es un importante centro comercial e industrial a nivel internacional, además de ser el distrito económico y capital financiera de Italia por los servicios terciarios, las finanzas, la moda y la industria. </p>
+                 
+                <p>
+                    Es además sede de la Bolsa de Milán (en piazza Affari) gestionada por Borsa Italiana, uno de los más importantes centros financieros de Europa y es de gran atracción por las sedes administrativas de decenas de multinacionales. Es uno de los mayores centros universitarios, editoriales y televisivos de Europa. Es sede de la Feria de Milán con la mayor superficie expositiva de la Unión Europea. Milán tiene una de las redes de transporte público más importantes de Italia con cuatro líneas de metro y unas 121 líneas de autobuses y tranvías. En ella se encuentran también los rascacielos más altos de Italia: la Torre Unicredit, el Palazzo Lombardia y la Torre Allianz.</p>
+             
+             
+             
+                               
+             
+             
+             
+         </div>
+            
+            
+            
+            
+            
+			
+		<div class="col-sm-12" style="border-top:1px solid #eee;">
+			<div class="row pt-3 pb-4 small">
+				<div class="col-sm-3">
+					<p><a href="index.html">Volver</a></p>
+				</div>
+				<div class="col-sm-9  text-right">
+					<p>Seminario Gráfica Computacional I 2018, Primer Semestre → Clase 1 → Viernes 16 de marzo</p>
+				</div>
+			</div>		
+		</div>
+	</div>
+</div>
+<script>
+    
+    var urlStart="http://api.openweathermap.org/data/2.5/weather";
+    var urlCityID= 6542283;
+    var urlUnit= "metric";
+    var urlApiKey="9b903af0cbd16b47457cb5ba3b2f0ea3";
+    var url = urlStart + "?id=" + urlCityID + "&units=" + urlUnit + "&appid=" + urlApiKey;
+    
+        
+var request = new XMLHttpRequest();
+request.open('GET', url, true); // aqui pusimos nuestro codigo
+request.onload = function () {
+  var data = JSON.parse(this.response);
+  var lat = data.coord.lat;
+  var lon = data.coord.lon;
+  var ciudad = data.name;
+  var humedad = data.main.humidity;
+  var temperatura = Math.round(data.main.temp);
+
+  console.log(data);
+  console.log(lat);
+  console.log(lon);
+  console.log(ciudad);
+  console.log(humedad + "%");
+  console.log(temperatura + "º C");
+    
+    if(temperatura< 18){
+        document.body.style.backgroundColor ="#d0e4ff";
+    }
+    
+    else if(temperatura> 25){
+        document.body.style.backgroundColor ="#f48376";
+    }
+    else{
+        document.body.style.backgroundColor ="#B4D2FC";
+    }
+  //mapa
+	var mymap = L.map('mapid').setView([lat, lon], 15);
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 20,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+	L.marker([lat, lon]).addTo(mymap)
+	.bindPopup("<h5>"+ ciudad + "</h5><p>Hay " + temperatura + "ºC, con " + humedad + "% de humedad<p>").openPopup();
+}
+request.send();
+</script>
+</body>
+</html>
+
